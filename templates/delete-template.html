@@ -1,0 +1,29 @@
+{% extends 'main.html' %}
+
+{% block content %}
+   
+
+
+       <!-- Main Section -->
+       <main class="formPage my-xl">
+         <div class="content-box">
+             <div class="formWrapper">
+                 <a class="backButton" href="#"><i class="im im-angle-left"></i></a>
+                 <br>
+                 <form  method="POST">
+                  {% csrf_token %}
+           
+               {% if project %}
+               <p>are you sure you want to delete "{{project.title|slice:"15"}}"?</p>
+               <a href="{% url 'projects' %}" class="btn btn--sub btn--lg my-md">Go back</a>
+               <input type="submit" value="confirm" class="btn btn--sub btn--lg my-md " style="background-color:#A41515">
+               {% else %}
+               <p>are you sure you want to delete "{{skill.name|slice:"10"}}"?</p>
+               <a href="{{request.GET.next}}" class="btn btn--sub btn--lg my-md">Go back</a>
+               <input type="submit" value="confirm" class="btn btn--sub btn--lg my-md" style="background-color:#A41515">
+               {% endif %}
+              </form>
+             </div>
+         </div>
+     </main>
+{% endblock  %}

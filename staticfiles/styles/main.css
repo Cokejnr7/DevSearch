@@ -1,0 +1,19 @@
+h1 {
+    color: purple;
+}
+
+p {
+    color: blue;
+}
+
+a {
+    color: aqua;
+}
+
+a:active {
+    color: brown;
+}
+
+a:visited {
+    color: olive;
+}

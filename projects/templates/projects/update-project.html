@@ -1,0 +1,10 @@
+{% extends 'main.html' %}
+
+{% block content %}
+   
+   <form method="POST" style="margin-top:150px; position:relative;width:100vw ;display:flex ; align-items:center; flex-direction:column"  enctype="multipart/form-data">
+       {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="submit">
+   </form>
+{% endblock  %}
