@@ -1,4 +1,7 @@
 
 email.py
 *.sqlite3
+venv/
+staticfiles
+static
 
