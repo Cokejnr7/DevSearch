@@ -6,7 +6,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .utils import searchProfiles
-from .models import Profile, Skill, Message
+from .models import Profile
 from django.shortcuts import get_object_or_404
 
 
@@ -45,19 +45,14 @@ def loginUser(request):
     if request.method == 'POST':
         username = request.POST['username'].lower()
         password = request.POST['password']
-        try:
-            user = User.objects.get(username=username)
-        except:
-            if username != "":
+        
+        if not User.objects.filter(username=username):
                 messages.error(request, f'There is no current user {username}')
-            else:
-                messages.error(request, f'type in a username')
-
+                
         user = authenticate(request, username=username, password=password)
 
-        if user is not None:
+        if user:
             login(request, user)
-            print(request.user)
             return redirect(request.GET['next'] if 'next' in request.GET else 'account')
         else:
             messages.error(request, 'Username or password is incorrect')

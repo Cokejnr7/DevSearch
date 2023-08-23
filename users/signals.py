@@ -1,12 +1,11 @@
 # importing the receiver decorator
 # from django.dispatch import receiver
 
-import email
 from django.contrib.auth.models import User
 from django.db.models.signals import post_delete, post_save
 from .models import Profile
-from django.core.mail import send_mail
-from django.conf import settings
+from .task import send_email
+
 
 # using the receiver decorator
 # @receiver(post_save,sender=User)
@@ -21,18 +20,13 @@ def createProfile(sender, instance, created, **kwargs):
             name=user.first_name,
             email=user.email
         )
+    
         subject = 'Welcome to DevSearch'
-        message = 'We are glad you are here'
-        try:
-            send_mail(
-                subject,
-                message,
-                settings.EMAIL_HOST_USER,
-                [profile.email],
-                fail_silently=False
-            )
-        except:
-            pass
+        message = f'We are glad you are here {profile.username}'
+            
+        send_email(subject,message,profile.email)
+    
+        
 
 
 def updateUser(sender, instance, created, **kwargs):
