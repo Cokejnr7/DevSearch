@@ -11,25 +11,20 @@ from .task import send_email
 # @receiver(post_save,sender=User)
 
 
-def createProfile(sender, instance, created, **kwargs):
+def create_profile(sender, instance, created, **kwargs):
     user = instance
     if created:
         profile = Profile.objects.create(
-            user=user,
-            username=user.username,
-            name=user.first_name,
-            email=user.email
+            user=user, username=user.username, name=user.first_name, email=user.email
         )
-    
-        subject = 'Welcome to DevSearch'
-        message = f'We are glad you are here {profile.username}'
-            
-        send_email(subject,message,profile.email)
-    
-        
+
+        subject = "Welcome to DevSearch"
+        message = f"We are glad you are here {profile.username}"
+
+        send_email(subject, message, profile.email)
 
 
-def updateUser(sender, instance, created, **kwargs):
+def update_user(sender, instance, created, **kwargs):
     profile = instance
     user = profile.user
     if created != True:
@@ -38,10 +33,11 @@ def updateUser(sender, instance, created, **kwargs):
         user.email = profile.email
         user.save()
 
+
 # @receiver(post_save,sender=User)
 
 
-def deleteUser(sender, instance, **kwargs):
+def delete_user(sender, instance, **kwargs):
     try:
         user = instance.user
         user.delete()
@@ -49,6 +45,6 @@ def deleteUser(sender, instance, **kwargs):
         pass
 
 
-post_save.connect(createProfile, sender=User)
-post_save.connect(updateUser, sender=Profile)
-post_delete.connect(deleteUser, sender=Profile)
+post_save.connect(create_profile, sender=User)
+post_save.connect(update_user, sender=Profile)
+post_delete.connect(delete_user, sender=Profile)
